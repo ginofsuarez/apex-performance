@@ -1,4 +1,4 @@
-# How to Accelerate Page Loading in Oracle APEX: A Practical Guide
+# Speed up APEX pages loading : Practical Guide
 
 Mention of common page and application loading performance challenges.
 
