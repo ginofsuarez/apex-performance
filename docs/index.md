@@ -1,5 +1,7 @@
 # Speed up APEX pages loading : Practical Guide
 
+![SpeedUp](./assets/images/speedup.png)
+
 <!-- Mention of common page and application loading performance challenges. -->
 
 Common challenges in page and application loading performance, particularly in the context of Oracle APEX and web applications in general, include Slow SQL Queries, High Server Load, Inefficient Application Logic, Network Latency, Client-Side Rendering Issues, others.
@@ -48,7 +50,7 @@ Using diagnostic and monitoring tools in Oracle APEX is essential for identifyin
 
 **APEX Advisor:**
 
-- `Purpose:` The APEX Advisor checks for best practices, security issues, and potential performance problems in your application.
+- `Purpose:` The APEX Advisor checks for best practices, security issues, and ==potential performance problems== in your application.
 - `How to Use:` Navigate to the “App Builder”, select your application, and choose “Utilities” from the right-hand sidebar. Then, click on “Advisor” to run it. It will report issues categorized by severity, allowing you to focus on critical problems first.
 
 **Debugging:**
@@ -109,6 +111,8 @@ Using diagnostic and monitoring tools in Oracle APEX is essential for identifyin
 - Identifying common symptoms of performance problems (slow load times, late server responses, etc.).
 
 ## Section 3: Page Load Performance Improvements
+
+![Performance](./assets/images/performance.png)
 
 ### SQL and PL/SQL query optimization techniques.
 
@@ -273,7 +277,7 @@ Efficient session and state management is crucial in Oracle APEX for maintaining
 
 ### Strategies for effective management of server resources.
 
-- Effective management of server resources is crucial for the optimal performance of Oracle APEX applications, as well as for any server-based applications. Here are several strategies that can be particularly effective:
+Effective management of server resources is crucial for the optimal performance of Oracle APEX applications, as well as for any server-based applications. Here are several strategies that can be particularly effective:
 
 **Load Balancing:**
 
@@ -416,13 +420,80 @@ Gather feedback from users for continuous improvement.
 
 ## Section 5: Performance Troubleshooting
 
-- Steps for troubleshooting common performance problems.
-- Examples of real cases and how they were solved.
+![Troubleshooting](./assets/images/troubleshooting.png)
+
+### Steps for troubleshooting common performance problems.
+
+Troubleshooting performance problems in web applications, including those built with Oracle APEX, typically involves several key steps. These steps help in identifying the root cause of the issue and formulating an effective solution. Here's a structured approach:
+
+1. **Define the Problem:** Clearly identify the symptoms and the conditions under which the performance issue occurs. Is it happening across the application or only on specific pages or functions?
+
+2. **Replicate the Issue:** Try to replicate the issue in a controlled environment. This can help in understanding the exact scenario in which the problem occurs.
+
+3. **Monitor and Gather Data:** Utilize monitoring tools to gather data. This includes server performance metrics (CPU, memory usage), database performance (slow queries, locks), and network performance.
+   In Oracle APEX, use the built-in monitoring tools and logs to gather information.
+
+4. **Analyze the Data:** Look for patterns or anomalies in the collected data. Compare the performance metrics against expected behavior to identify any deviations.
+
+5. **Identify Bottlenecks:** Narrow down the potential causes. Is the issue related to the database, application server, network, or client-side processing?
+   For database issues, examine execution plans of slow-running queries.
+   For application issues, review the application code, particularly any recent changes.
+
+6. **Check Resource Utilization:** Ensure that the server has adequate resources (CPU, memory, disk space, network bandwidth).
+   Check for any resource-intensive processes that might be consuming an excessive amount of resources.
+
+7. **Review Application Configuration:** Verify that the application is configured correctly. This includes checking database connections, application settings, and any third-party integrations.
+
+8. **Test in Different Environments:** Test the application in different environments (browsers, networks, devices) to see if the issue is environment-specific.
+
+9. **Implement and Test Fixes:** Based on your findings, implement potential fixes. This might involve optimizing SQL queries, refactoring code, adding indexes to the database, etc.
+   Test the changes in a non-production environment before rolling them out.
+
+10. **Evaluate the Impact:** After implementing fixes, reassess the application's performance to determine if there's been an improvement.
+    Continue to monitor the application closely to ensure the problem is resolved.
+
+11. **Document and Learn:** Document the issue, the investigative process, and the solution. This can be valuable for addressing similar issues in the future.
+    Share the findings and solutions with your team to broaden collective knowledge.
+
+12. **Seek External Help:** If you're unable to resolve the issue, consider reaching out to external experts, forums, or Oracle support.
+
+!!! info "Remember, performance troubleshooting often requires a methodical approach and sometimes a bit of trial and error. It's important to isolate changes and test systematically to understand the impact of your modifications."
+
+### Examples of real cases and how they were solved.
 
 ## Conclusion:
 
-Summary of best practices in performance optimization in Oracle APEX.
-Additional resources to learn more and stay up to date.
+In conclusion, optimizing performance in Oracle APEX involves a multifaceted approach that addresses various aspects of application development and deployment.
+
+### Summary of best practices in performance optimization in Oracle APEX.
+
+1. **Efficient Database Interaction:** Optimize SQL queries and PL/SQL code, use effective indexing, and ensure the database is properly configured and maintained.
+
+2. **Streamlined Application Design:** Design APEX applications with performance in mind, focusing on efficient page design, minimalistic UI elements, and effective use of AJAX and JavaScript.
+
+3. **Session and State Management:** Manage session states efficiently, minimizing unnecessary writes to the database and using application items judiciously.
+
+4. **Caching Strategies:** Implement caching at different levels, including browser, APEX application, and database, to reduce load times and database access frequency.
+
+5. **Responsive and Lightweight UI:** Optimize client-side assets like JavaScript and CSS, ensuring they are minimized and compressed, and leverage APEX’s responsive design capabilities for a smooth user experience.
+
+6. **Performance Monitoring and Tuning:** Regularly monitor application performance using APEX’s built-in tools and external monitoring solutions. Continuously analyze and tune performance based on insights gathered.
+
+7. **Resource Management:** Efficiently manage server resources, ensuring the server is adequately equipped to handle the application load and employing techniques like load balancing for high availability.
+
+8. **Security Considerations:** Keep security in mind, as some performance optimization strategies might have implications on application security.
+
+9. **Testing and Profiling:** Continuously test the application under various conditions and use profiling tools to identify performance bottlenecks.
+
+10. **Scalability and Load Balancing:** Design applications for scalability, considering future growth, and use load balancing to distribute traffic and reduce the load on individual servers.
+
+11. **Documentation and Best Practices:** Maintain thorough documentation and adhere to established development best practices to ensure maintainability and performance.
+
+12. **User Feedback and Continuous Improvement:** Regularly gather user feedback and be prepared to make iterative improvements to the application.
+
+!!! success "By following these best practices, Oracle APEX developers can create applications that not only meet functional requirements but also deliver excellent performance and a superior user experience. Remember, performance optimization is an ongoing process and should be integral to the application lifecycle."
+
+### Additional resources to learn more and stay up to date.
 
 ```
 
