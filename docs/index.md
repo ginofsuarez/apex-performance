@@ -1,6 +1,6 @@
 # Speed up APEX pages loading : Practical Guide
 
-![SpeedUp](./assets/images/speedup.png)
+![SpeedUp](./assets/images/lighthouse.png)
 
 <!-- Mention of common page and application loading performance challenges. -->
 
@@ -40,9 +40,9 @@ Here are the key aspects that are generally considered when evaluating good perf
 
 <!-- - Key factors that affect performance (such as database, application server, application code, etc.). -->
 
-## Section 2: Identifying Performance Problems
+![Perfomance Tools](./assets/images/mapleleaf.png)
 
-![Perfomance Tools](./assets/images/performance_tools.png)
+## Section 2: Identifying Performance Problems
 
 <!-- - How to use diagnostic and monitoring tools in Oracle APEX. -->
 
@@ -53,66 +53,60 @@ Using diagnostic and monitoring tools in Oracle APEX is essential for identifyin
 - `Purpose:` The APEX Advisor checks for best practices, security issues, and ==potential performance problems== in your application.
 - `How to Use:` Navigate to the “App Builder”, select your application, and choose “Utilities” from the right-hand sidebar. Then, click on “Advisor” to run it. It will report issues categorized by severity, allowing you to focus on critical problems first.
 
+!!! quote "In the Performance section you will find references to the use of the V function. You can get more details in Michelle's blog [15 Top Tips to tune your Oracle APEX Performance](https://www.laureston.ca/2019/12/05/15-top-tips-to-tune-your-oracle-apex-performance/) where she proposes the best alternatives to replace the use of this function."
+
 **Debugging:**
 
 - `Purpose:` Debugging allows you to trace the execution of your application, showing the steps it takes and how long each step takes.
-- `How to Use:` To enable debugging, add &pdebug=YES to the end of your application URL or click the “Debug” option within the App Builder. Review the debug reports in the “View Debug” option under the developer toolbar to identify slow-running pages or processes.
+- `How to Use:` To enable debugging, add ==debug=YES== to the end of your application URL or click the “Debug” option within the App Builder. Review the debug reports in the “View Debug” option under the developer toolbar to identify slow-running pages or processes.
 
-**Page Timing:**
+**Page Performance:**
 
-- `Purpose:` Page timing helps in understanding the time taken for various components of a page to load.
+- `Purpose:` Page performance helps in understanding the time taken for various components of a page to load.
 
-- `How to Use:` This feature can be accessed from the developer toolbar at the bottom of your application page in run-time. It provides a breakdown of timing for SQL queries, PL/SQL processes, page rendering, etc.
+- `How to Use:` This feature can be accessed from the developer toolbar in run-time. It provides a breakdown of timing for SQL queries, PL/SQL processes, page rendering, etc.
 
-**SQL Workshop:**
-
-- `Purpose:` SQL Workshop includes tools like Object Browser, SQL Commands, and Query Builder to work with your database objects and queries.
-
-- `How to Use:` Use these tools to execute and monitor the performance of SQL queries directly, identify long-running queries, and experiment with query optimizations.
+!!! tip "When auditing a page, [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/) runs a barrage of tests against the page, and then generates a report on how well the page did. From here you can use the failing tests as indicators on what you can do to improve your app."
 
 **Application Logs:**
 
 - `Purpose:` Application logs record various events and errors that occur within your application.
 
-- `How to Use:` Regularly review these logs (accessible via the App Builder) for any anomalies or errors that could be impacting performance.
+- `How to Use:` Regularly review these logs (accessible via the App Builder) for any anomalies or errors that could be impacting performance. You can find relevant information on this subject in Michelle's blog [15 Top Tips to tune your Oracle APEX Performance](https://www.laureston.ca/2019/12/05/15-top-tips-to-tune-your-oracle-apex-performance/) in point 2 View the Activity Monitor.
 
 **Monitoring Database Performance:**
 
 - `Purpose:` Monitoring the underlying Oracle database is crucial for overall application performance.
 
-- `How to Use:` Utilize Oracle database tools like Automatic Workload Repository (AWR) reports, Active Session History (ASH), and SQL Monitoring for in-depth analysis.
+- `How to Use:` Utilize Oracle database tools like [Automatic Workload Repository (AWR)](https://blogs.oracle.com/cloud-infrastructure/post/announcing-general-availability-oci-operations-insights-awr-hub) reports, [Active Session History (ASH)](https://www.oracle.com/enterprise-manager/?ytid=vlhZ7MioaU4), and [SQL Monitoring](https://blogs.oracle.com/coretec/post/oracle-database-real-time-sql-monitoring-one-of-the-most-important-tools) for in-depth analysis.
+
+!!! info "Some of these functionalities could require Enterprise Edition and the Diagnostics and Tuning option. Make sure you have the correct licensing before using this functionality."
 
 **Utilizing Third-Party Tools:**
 
 - `Purpose:` There are several third-party tools and services that can be integrated with Oracle APEX to provide additional monitoring and diagnostics.
 
-- `How to Use:` Tools like Oracle Enterprise Manager (OEM), New Relic, or SolarWinds can provide comprehensive monitoring capabilities.
-
-**Performance Tuning Utilities:**
-
-- `Purpose:` Oracle APEX includes utilities specifically designed for performance tuning.
-
-- `How to Use:` Use utilities like the “Performance Tuning” option in SQL Workshop to analyze and optimize the performance of your SQL scripts.
+- `How to Use:` Tools like [Oracle Enterprise Manager (OEM)](https://www.oracle.com/enterprise-manager/#:~:text=Enterprise%20Manager%20is%20used%20to,flexible%20high%20availability%20deployment%20options.), [New Relic](https://newrelic.com/), or [SolarWinds](https://www.solarwinds.com/) can provide comprehensive monitoring capabilities.
 
 **Real-Time SQL Monitoring:**
 
 - `Purpose:` For real-time monitoring of SQL query performance.
 
-- `How to Use:` This can be accessed via Oracle Enterprise Manager or SQL Developer. It provides detailed metrics on SQL execution, which is crucial for tuning complex queries.
+- `How to Use:` This can be accessed via [Oracle Enterprise Manager (OEM)](https://www.oracle.com/enterprise-manager/#:~:text=Enterprise%20Manager%20is%20used%20to,flexible%20high%20availability%20deployment%20options.) or SQL Developer. It provides detailed metrics on SQL execution, which is crucial for tuning complex queries.
 
 **Automated Health Check Reports:**
 
 - `Purpose:` To provide an overview of the health and performance of your APEX environment.
 
-- `How to Use:` These can be scheduled or run ad-hoc and offer insights into system health, potential bottlenecks, and areas for optimization.
+- `How to Use:` [Health Checks Service](https://docs.oracle.com/en-us/iaas/Content/HealthChecks/Concepts/healthchecks.htm) can be scheduled or run ad-hoc and offer insights into system health, potential bottlenecks, and areas for optimization.
 
 !!! info "Remember, the key to effective use of these tools is regular monitoring and not just when issues arise. Proactive monitoring helps in identifying potential performance issues before they become critical, allowing for a more stable and efficient APEX application."
 
 - Identifying common symptoms of performance problems (slow load times, late server responses, etc.).
 
-## Section 3: Page Load Performance Improvements
+![Perfomance Tools](./assets/images/mapleleaf.png)
 
-![Performance](./assets/images/performance.png)
+## Section 3: Page Load Performance Improvements
 
 ### SQL and PL/SQL query optimization techniques.
 
@@ -166,7 +160,7 @@ SELECT * FROM employees WHERE department_id = :dept_id.
 **Use Execution Plans:**
 
 - `Why:` Understanding execution plans helps identify inefficient parts of the query.
-- `How:` Use tools like EXPLAIN PLAN or SQL Developer to analyze how your SQL queries are executed and optimize based on the findings.
+- `How:` Use tools like [EXPLAIN PLAN](https://blogs.oracle.com/optimizer/post/how-to-generate-a-useful-sql-execution-plan) or SQL Developer to analyze how your SQL queries are executed and optimize based on the findings.
 
 **Use SQL Functions Appropriately:**
 
@@ -186,7 +180,7 @@ SELECT * FROM employees WHERE department_id = :dept_id.
 **Regularly Gather Statistics:**
 
 - `Why:` Up-to-date statistics help the Oracle optimizer choose the most efficient execution plans.
-- `How:` Regularly gather statistics on tables and indexes.
+- `How:` Regularly [gather statistics](https://docs.oracle.com/en/database/oracle/oracle-database/19/tgsql/gathering-optimizer-statistics.html#GUID-3D546E00-5DC0-4350-80F8-68205008FCEA) on tables and indexes.
 
 **Tune Subqueries and Joins:**
 
@@ -271,9 +265,9 @@ Efficient session and state management is crucial in Oracle APEX for maintaining
 
 <!-- - Using APEX features to improve performance (such as using Application Express (APEX) Collections, Dynamic Actions, etc.). -->
 
-## Section 4: Application Performance Optimization
+![Perfomance Tools](./assets/images/mapleleaf.png)
 
-![Application Performance](./assets/images/app_performance.png)
+## Section 4: Application Performance Optimization
 
 ### Strategies for effective management of server resources.
 
@@ -300,43 +294,15 @@ Effective management of server resources is crucial for the optimal performance 
 
 **Regular Monitoring and Maintenance:**
 
-- Continuously monitor server performance metrics. Use tools like Oracle Enterprise Manager (OEM) for comprehensive monitoring and setup alerts for unusual activities.
-
-**Network Optimization:**
-
-- Ensure that the server’s network infrastructure is optimized for performance. This includes configuring proper routing, reducing latency, and ensuring sufficient bandwidth.
-
-**Server Virtualization:**
-
-- Utilize server virtualization to optimize resource usage. Virtualization allows for the distribution of resources as needed and can improve scalability and manageability.
+- Continuously monitor server performance metrics. Use tools like [Oracle Enterprise Manager (OEM)](https://www.oracle.com/enterprise-manager/#:~:text=Enterprise%20Manager%20is%20used%20to,flexible%20high%20availability%20deployment%20options.) for comprehensive monitoring and setup alerts for unusual activities.
 
 **Scalability Planning:**
 
 - Design the server infrastructure with scalability in mind. Consider using cloud services or clustered environments that can be scaled up or down based on demand.
 
-**Security Management:**
-
-- Implement robust security measures to protect server resources. This includes regular updates, using firewalls, and monitoring for any suspicious activities.
-
-**Automation of Routine Tasks:**
-
-- Automate routine maintenance tasks like backups, patches, and updates to improve efficiency and reduce the risk of human error.
-
-**Energy Efficiency:**
-
-- Optimize server rooms for energy efficiency, reducing costs and supporting sustainability. This includes proper cooling systems and using energy-efficient hardware.
-
 **Use of Content Delivery Networks (CDNs):**
 
 - For applications that serve users globally, use CDNs to cache content in different geographical locations, reducing load times and server load.
-
-**Offloading Static Content:**
-
-- Serve static content like images, CSS, and JavaScript files from separate servers or services to reduce the load on the main application server.
-
-**Optimizing Connection Pooling:**
-
-- Effectively manage database connection pooling to optimize database access and reduce overhead on the server.
 
 ### Tips for effective use of AJAX and JavaScript in APEX.
 
@@ -407,7 +373,7 @@ Use tools like Oracle APEX’s Advisor to identify potential performance issues.
 Regularly refactor and update your code to improve performance and maintainability.
 
 **Monitoring and Logging:** Implement logging and monitoring to keep track of performance metrics.
-Use tools like Oracle Enterprise Manager for comprehensive monitoring.
+Use tools like [Oracle Enterprise Manager (OEM)](https://www.oracle.com/enterprise-manager/#:~:text=Enterprise%20Manager%20is%20used%20to,flexible%20high%20availability%20deployment%20options.) for comprehensive monitoring.
 
 **User Experience:** Design with the user in mind, ensuring that the application is intuitive and easy to use.
 Gather feedback from users for continuous improvement.
@@ -418,9 +384,9 @@ Gather feedback from users for continuous improvement.
 
 !!! info "These practices are not exhaustive but provide a solid foundation for designing and developing high-performing applications in Oracle APEX and other web-based platforms. Each application is unique, so these practices should be adapted to fit specific needs and contexts."
 
-## Section 5: Performance Troubleshooting
+![Perfomance Tools](./assets/images/mapleleaf.png)
 
-![Troubleshooting](./assets/images/troubleshooting.png)
+## Section 5: Performance Troubleshooting
 
 ### Steps for troubleshooting common performance problems.
 
@@ -461,42 +427,10 @@ Troubleshooting performance problems in web applications, including those built 
 
 ### Examples of real cases and how they were solved.
 
+![Perfomance Tools](./assets/images/mapleleaf.png)
+
 ## Conclusion:
 
 In conclusion, optimizing performance in Oracle APEX involves a multifaceted approach that addresses various aspects of application development and deployment.
 
-### Summary of best practices in performance optimization in Oracle APEX.
-
-1. **Efficient Database Interaction:** Optimize SQL queries and PL/SQL code, use effective indexing, and ensure the database is properly configured and maintained.
-
-2. **Streamlined Application Design:** Design APEX applications with performance in mind, focusing on efficient page design, minimalistic UI elements, and effective use of AJAX and JavaScript.
-
-3. **Session and State Management:** Manage session states efficiently, minimizing unnecessary writes to the database and using application items judiciously.
-
-4. **Caching Strategies:** Implement caching at different levels, including browser, APEX application, and database, to reduce load times and database access frequency.
-
-5. **Responsive and Lightweight UI:** Optimize client-side assets like JavaScript and CSS, ensuring they are minimized and compressed, and leverage APEX’s responsive design capabilities for a smooth user experience.
-
-6. **Performance Monitoring and Tuning:** Regularly monitor application performance using APEX’s built-in tools and external monitoring solutions. Continuously analyze and tune performance based on insights gathered.
-
-7. **Resource Management:** Efficiently manage server resources, ensuring the server is adequately equipped to handle the application load and employing techniques like load balancing for high availability.
-
-8. **Security Considerations:** Keep security in mind, as some performance optimization strategies might have implications on application security.
-
-9. **Testing and Profiling:** Continuously test the application under various conditions and use profiling tools to identify performance bottlenecks.
-
-10. **Scalability and Load Balancing:** Design applications for scalability, considering future growth, and use load balancing to distribute traffic and reduce the load on individual servers.
-
-11. **Documentation and Best Practices:** Maintain thorough documentation and adhere to established development best practices to ensure maintainability and performance.
-
-12. **User Feedback and Continuous Improvement:** Regularly gather user feedback and be prepared to make iterative improvements to the application.
-
-!!! success "By following these best practices, Oracle APEX developers can create applications that not only meet functional requirements but also deliver excellent performance and a superior user experience. Remember, performance optimization is an ongoing process and should be integral to the application lifecycle."
-
 ### Additional resources to learn more and stay up to date.
-
-```
-
-```
-
-[def]: doc
