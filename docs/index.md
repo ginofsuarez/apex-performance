@@ -434,6 +434,6 @@ In conclusion, optimizing performance in Oracle APEX involves a multifaceted app
 ### Additional resources to learn more and stay up to date.
 
 - :fontawesome-brands-youtube:{ .youtube } [Insum - Oracle Specialist, APEX Experts](https://www.youtube.com/@Insum)
-- :fontawesome-brands-blogger:{ .blogger } [Blog - Insum - Oracle Specialist, APEX Experts](https://www.insum.ca/resources/blog/)
-- :fontawesome-brands-blogger:{ .blogger } [Blog - 15 Top Tips to tune your Oracle APEX Performance](https://www.laureston.ca/2019/12/05/15-top-tips-to-tune-your-oracle-apex-performance/)
-- :fontawesome-brands-blogger:{ .blogger } [Blog - Writting fast queries](https://apexdebug.com/writing-fast-queries)
+- :fontawesome-brands-blogger:{ .blogger } [Insum - Oracle Specialist, APEX Experts](https://www.insum.ca/resources/blog/)
+- :fontawesome-brands-blogger:{ .blogger } [15 Top Tips to tune your Oracle APEX Performance](https://www.laureston.ca/2019/12/05/15-top-tips-to-tune-your-oracle-apex-performance/)
+- :fontawesome-brands-blogger:{ .blogger } [Writting fast queries](https://apexdebug.com/writing-fast-queries)
