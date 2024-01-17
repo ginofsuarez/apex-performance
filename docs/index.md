@@ -425,8 +425,6 @@ Troubleshooting performance problems in web applications, including those built 
 
 !!! info "Remember, performance troubleshooting often requires a methodical approach and sometimes a bit of trial and error. It's important to isolate changes and test systematically to understand the impact of your modifications."
 
-### Examples of real cases and how they were solved.
-
 ![Perfomance Tools](./assets/images/mapleleaf.png)
 
 ## Conclusion:
@@ -434,3 +432,8 @@ Troubleshooting performance problems in web applications, including those built 
 In conclusion, optimizing performance in Oracle APEX involves a multifaceted approach that addresses various aspects of application development and deployment.
 
 ### Additional resources to learn more and stay up to date.
+
+- :fontawesome-brands-youtube:{ .youtube } [Insum - Oracle Specialist, APEX Experts](https://www.youtube.com/@Insum)
+- :fontawesome-brands-blogger:{ .blogger } [Blog - Insum - Oracle Specialist, APEX Experts](https://www.insum.ca/resources/blog/)
+- :fontawesome-brands-blogger:{ .blogger } [Blog - 15 Top Tips to tune your Oracle APEX Performance](https://www.laureston.ca/2019/12/05/15-top-tips-to-tune-your-oracle-apex-performance/)
+- :fontawesome-brands-blogger:{ .blogger } [Blog - Writting fast queries](https://apexdebug.com/writing-fast-queries)
