@@ -1,0 +1,1042 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.4">
+    
+    
+      
+        <title>APEX Performance Tuning</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#speed-up-apex-pages-loading-practical-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="APEX Performance Tuning" class="md-header__button md-logo" aria-label="APEX Performance Tuning" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            APEX Performance Tuning
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Speed up APEX pages loading : Practical Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="lime"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="." class="md-tabs__link">
+        
+  
+    
+  
+  Speed up APEX pages loading : Practical Guide
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="APEX Performance Tuning" class="md-nav__button md-logo" aria-label="APEX Performance Tuning" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    APEX Performance Tuning
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Speed up APEX pages loading : Practical Guide
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Speed up APEX pages loading : Practical Guide
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#section-1-understanding-performance-in-oracle-apex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section 1: Understanding Performance in Oracle APEX
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-2-identifying-performance-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section 2: Identifying Performance Problems
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-3-page-load-performance-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section 3: Page Load Performance Improvements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Section 3: Page Load Performance Improvements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sql-and-plsql-query-optimization-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      SQL and PL/SQL query optimization techniques.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tips-for-efficient-session-and-state-management-in-apex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tips for efficient session and state management in APEX
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-4-application-performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section 4: Application Performance Optimization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Section 4: Application Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strategies-for-effective-management-of-server-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Strategies for effective management of server resources.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tips-for-effective-use-of-ajax-and-javascript-in-apex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tips for effective use of AJAX and JavaScript in APEX.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#best-practices-in-application-design-for-optimal-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best practices in application design for optimal performance.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-5-performance-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section 5: Performance Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Section 5: Performance Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps-for-troubleshooting-common-performance-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps for troubleshooting common performance problems.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion:
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conclusion:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#additional-resources-to-learn-more-and-stay-up-to-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional resources to learn more and stay up to date.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="speed-up-apex-pages-loading-practical-guide">Speed up APEX pages loading : Practical Guide</h1>
+<p><img alt="SpeedUp" src="assets/images/lighthouse.png" /></p>
+<!-- Mention of common page and application loading performance challenges. -->
+
+<p>Common challenges in page and application loading performance, particularly in the context of Oracle APEX and web applications in general, include Slow SQL Queries, High Server Load, Inefficient Application Logic, Network Latency, Client-Side Rendering Issues, others.</p>
+<p>Addressing these challenges often requires a combination of optimizing SQL queries, refining application logic, leveraging caching, minimizing client-side processing, and ensuring adequate server resources and efficient network configurations. Regular monitoring and performance tuning are key to identifying and mitigating these issues.</p>
+<h2 id="section-1-understanding-performance-in-oracle-apex">Section 1: Understanding Performance in Oracle APEX</h2>
+<!-- ### What is considered good performance in Oracle APEX: -->
+
+<div class="admonition quote">
+<p class="admonition-title">Good performance in Oracle APEX, as in any web-based application environment, is primarily defined by the responsiveness and efficiency of the application.</p>
+</div>
+<p>Here are the key aspects that are generally considered when evaluating good performance in Oracle APEX:</p>
+<ol>
+<li>
+<p><strong>Fast Page Load Times:</strong> Slow page load times can lead to a poor user experience and may cause users to abandon the application.</p>
+</li>
+<li>
+<p><strong>Efficient Database Interactions:</strong> This includes optimized SQL queries that return results quickly and efficiently, appropriate indexing, and effective use of PL/SQL to handle business logic.</p>
+</li>
+<li>
+<p><strong>Minimal Server Resource Usage:</strong> This includes optimal use of memory, CPU, and disk I/O. Efficient use of resources ensures that the application can handle a higher number of concurrent users without degradation in performance.</p>
+</li>
+<li>
+<p><strong>Responsive User Interface (UI):</strong> The UI should be responsive and interactive, providing immediate feedback to user actions. This involves efficient use of AJAX, JavaScript, and HTML/CSS to create a smooth and dynamic user experience.</p>
+</li>
+<li>
+<p><strong>Scalability:</strong> A well-performing APEX application should be able to maintain its responsiveness as the number of users grows.</p>
+</li>
+<li>
+<p><strong>Low Latency in Network Communications:</strong> The time taken for data to travel across the network between the client and the server (and back) should be minimal. Network latency can significantly affect the perceived speed of an application.</p>
+</li>
+<li>
+<p><strong>Effective Error and Exception Handling:</strong> This includes providing useful error messages to users and ensuring that one user’s problematic request does not impact the performance for others.</p>
+</li>
+<li>
+<p><strong>Consistency Across Different Browsers and Devices:</strong> The application should perform consistently across different web browsers and devices, providing a similar level of responsiveness and efficiency.</p>
+</li>
+<li>
+<p><strong>Minimal Bottlenecks and Locks:</strong> Particularly in database operations. This ensures that multiple users can interact with the application simultaneously without encountering significant delays or locks.</p>
+</li>
+<li>
+<p><strong>Regular Monitoring and Optimization:</strong> Continuously monitoring application performance and regularly optimizing based on the insights gained is a part of maintaining good performance. This proactive approach helps in identifying and rectifying potential performance issues before they impact the users.</p>
+</li>
+</ol>
+<blockquote>
+<p>In summary, good performance in Oracle APEX is characterized by fast, efficient, scalable, and consistent application behavior that provides a seamless and responsive user experience.</p>
+</blockquote>
+<!-- - Key factors that affect performance (such as database, application server, application code, etc.). -->
+
+<p><img alt="Perfomance Tools" src="assets/images/mapleleaf.png" /></p>
+<h2 id="section-2-identifying-performance-problems">Section 2: Identifying Performance Problems</h2>
+<!-- - How to use diagnostic and monitoring tools in Oracle APEX. -->
+
+<p>Using diagnostic and monitoring tools in Oracle APEX is essential for identifying and addressing performance issues. Here’s a guide on how to effectively utilize these tools:</p>
+<p><strong>APEX Advisor:</strong></p>
+<ul>
+<li><code>Purpose:</code> The APEX Advisor checks for best practices, security issues, and <mark>potential performance problems</mark> in your application.</li>
+<li><code>How to Use:</code> Navigate to the “App Builder”, select your application, and choose “Utilities” from the right-hand sidebar. Then, click on “Advisor” to run it. It will report issues categorized by severity, allowing you to focus on critical problems first.</li>
+</ul>
+<div class="admonition quote">
+<p class="admonition-title">In the Performance section you will find references to the use of the V function. You can get more details in Michelle's blog <a href="https://www.laureston.ca/2019/12/05/15-top-tips-to-tune-your-oracle-apex-performance/">15 Top Tips to tune your Oracle APEX Performance</a> where she proposes the best alternatives to replace the use of this function.</p>
+</div>
+<p><strong>Debugging:</strong></p>
+<ul>
+<li><code>Purpose:</code> Debugging allows you to trace the execution of your application, showing the steps it takes and how long each step takes.</li>
+<li><code>How to Use:</code> To enable debugging, add <mark>debug=YES</mark> to the end of your application URL or click the “Debug” option within the App Builder. Review the debug reports in the “View Debug” option under the developer toolbar to identify slow-running pages or processes.</li>
+</ul>
+<p><strong>Page Performance:</strong></p>
+<ul>
+<li>
+<p><code>Purpose:</code> Page performance helps in understanding the time taken for various components of a page to load.</p>
+</li>
+<li>
+<p><code>How to Use:</code> This feature can be accessed from the developer toolbar in run-time. It provides a breakdown of timing for SQL queries, PL/SQL processes, page rendering, etc.</p>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">When auditing a page, <a href="https://developer.chrome.com/docs/lighthouse/overview/">Lighthouse</a> runs a barrage of tests against the page, and then generates a report on how well the page did. From here you can use the failing tests as indicators on what you can do to improve your app.</p>
+</div>
+<p><strong>Application Logs:</strong></p>
+<ul>
+<li>
+<p><code>Purpose:</code> Application logs record various events and errors that occur within your application.</p>
+</li>
+<li>
+<p><code>How to Use:</code> Regularly review these logs (accessible via the App Builder) for any anomalies or errors that could be impacting performance. You can find relevant information on this subject in Michelle's blog <a href="https://www.laureston.ca/2019/12/05/15-top-tips-to-tune-your-oracle-apex-performance/">15 Top Tips to tune your Oracle APEX Performance</a> in point 2 View the Activity Monitor.</p>
+</li>
+</ul>
+<p><strong>Monitoring Database Performance:</strong></p>
+<ul>
+<li>
+<p><code>Purpose:</code> Monitoring the underlying Oracle database is crucial for overall application performance.</p>
+</li>
+<li>
+<p><code>How to Use:</code> Utilize Oracle database tools like <a href="https://blogs.oracle.com/cloud-infrastructure/post/announcing-general-availability-oci-operations-insights-awr-hub">Automatic Workload Repository (AWR)</a> reports, <a href="https://www.oracle.com/enterprise-manager/?ytid=vlhZ7MioaU4">Active Session History (ASH)</a>, and <a href="https://blogs.oracle.com/coretec/post/oracle-database-real-time-sql-monitoring-one-of-the-most-important-tools">SQL Monitoring</a> for in-depth analysis.</p>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Some of these functionalities could require Enterprise Edition and the Diagnostics and Tuning option. Make sure you have the correct licensing before using this functionality.</p>
+</div>
+<p><strong>Utilizing Third-Party Tools:</strong></p>
+<ul>
+<li>
+<p><code>Purpose:</code> There are several third-party tools and services that can be integrated with Oracle APEX to provide additional monitoring and diagnostics.</p>
+</li>
+<li>
+<p><code>How to Use:</code> Tools like <a href="https://www.oracle.com/enterprise-manager/#:~:text=Enterprise%20Manager%20is%20used%20to,flexible%20high%20availability%20deployment%20options.">Oracle Enterprise Manager (OEM)</a>, <a href="https://newrelic.com/">New Relic</a>, or <a href="https://www.solarwinds.com/">SolarWinds</a> can provide comprehensive monitoring capabilities.</p>
+</li>
+</ul>
+<p><strong>Real-Time SQL Monitoring:</strong></p>
+<ul>
+<li>
+<p><code>Purpose:</code> For real-time monitoring of SQL query performance.</p>
+</li>
+<li>
+<p><code>How to Use:</code> This can be accessed via <a href="https://www.oracle.com/enterprise-manager/#:~:text=Enterprise%20Manager%20is%20used%20to,flexible%20high%20availability%20deployment%20options.">Oracle Enterprise Manager (OEM)</a> or SQL Developer. It provides detailed metrics on SQL execution, which is crucial for tuning complex queries.</p>
+</li>
+</ul>
+<p><strong>Automated Health Check Reports:</strong></p>
+<ul>
+<li>
+<p><code>Purpose:</code> To provide an overview of the health and performance of your APEX environment.</p>
+</li>
+<li>
+<p><code>How to Use:</code> <a href="https://docs.oracle.com/en-us/iaas/Content/HealthChecks/Concepts/healthchecks.htm">Health Checks Service</a> can be scheduled or run ad-hoc and offer insights into system health, potential bottlenecks, and areas for optimization.</p>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Remember, the key to effective use of these tools is regular monitoring and not just when issues arise. Proactive monitoring helps in identifying potential performance issues before they become critical, allowing for a more stable and efficient APEX application.</p>
+</div>
+<ul>
+<li>Identifying common symptoms of performance problems (slow load times, late server responses, etc.).</li>
+</ul>
+<p><img alt="Perfomance Tools" src="assets/images/mapleleaf.png" /></p>
+<h2 id="section-3-page-load-performance-improvements">Section 3: Page Load Performance Improvements</h2>
+<h3 id="sql-and-plsql-query-optimization-techniques">SQL and PL/SQL query optimization techniques.</h3>
+<p>Optimizing SQL and PL/SQL queries is crucial for improving the performance of Oracle APEX applications. Here are some key techniques for SQL and PL/SQL optimization:</p>
+<p><strong>Use Bind Variables:</strong></p>
+<ul>
+<li>
+<p><code>Why:</code> Bind variables reduce parsing overhead and improve query execution speed.</p>
+</li>
+<li>
+<p><code>How:</code> Replace literals in SQL queries with bind variables. For instance, instead of:</p>
+</li>
+</ul>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+</code></pre></div></td></tr></table></div>
+<p>use</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">dept_id</span><span class="p">.</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Optimize SQL Queries:</strong></p>
+<ul>
+<li><code>Why:</code> Efficient SQL queries reduce load on the database.</li>
+<li><code>How:</code> Avoid SELECT * and specify only needed columns.
+  Use WHERE clauses to filter data effectively.
+  Join tables efficiently - avoid unnecessary joins.</li>
+</ul>
+<p><strong>Use Indexes Wisely:</strong></p>
+<ul>
+<li><code>Why:</code> Indexes speed up data retrieval but should be used judiciously.</li>
+<li><code>How:</code>
+  Create indexes on columns used in WHERE, JOIN, and ORDER BY clauses.</li>
+</ul>
+<div class="admonition danger">
+<p class="admonition-title">Be cautious about over-indexing, as it can slow down DML operations (INSERT, UPDATE, DELETE).</p>
+</div>
+<p><strong>Avoid Unnecessary PL/SQL:</strong></p>
+<ul>
+<li><code>Why:</code> Excessive use of PL/SQL for operations that can be done via SQL can lead to performance issues.</li>
+<li><code>How:</code> Use SQL for data manipulation and retrieval where possible, and reserve PL/
+  SQL for business logic and operations that cannot be efficiently done in SQL.</li>
+</ul>
+<p><strong>Optimize PL/SQL Code:</strong></p>
+<ul>
+<li><code>Why:</code> Well-optimized PL/SQL code executes faster and uses fewer resources.</li>
+<li><code>How:</code>
+  Use bulk operations (BULK COLLECT and FORALL) to process large datasets.
+  Avoid excessive use of context switching between SQL and PL/SQL.
+  Minimize the use of dynamic SQL and ensure it’s properly optimized.</li>
+</ul>
+<p><strong>Use Execution Plans:</strong></p>
+<ul>
+<li><code>Why:</code> Understanding execution plans helps identify inefficient parts of the query.</li>
+<li><code>How:</code> Use tools like <a href="https://blogs.oracle.com/optimizer/post/how-to-generate-a-useful-sql-execution-plan">EXPLAIN PLAN</a> or SQL Developer to analyze how your SQL queries are executed and optimize based on the findings.</li>
+</ul>
+<p><strong>Use SQL Functions Appropriately:</strong></p>
+<ul>
+<li><code>Why:</code> Misuse of functions can lead to performance degradation.</li>
+<li><code>How:</code> Avoid applying functions on indexed columns in WHERE clauses, which can prevent the use of indexes.</li>
+</ul>
+<p><strong>Optimize Data Model:</strong></p>
+<ul>
+<li><code>Why:</code> A well-designed data model provides a foundation for efficient queries.</li>
+<li><code>How:</code> Normalize data where appropriate, but consider denormalization in some cases for performance.</li>
+</ul>
+<p><strong>Leverage Oracle Features:</strong></p>
+<ul>
+<li><code>Why:</code> Oracle provides several features to enhance query performance.</li>
+<li><code>How:</code> Use features like materialized views, partitioning, and advanced indexing techniques.</li>
+</ul>
+<p><strong>Regularly Gather Statistics:</strong></p>
+<ul>
+<li><code>Why:</code> Up-to-date statistics help the Oracle optimizer choose the most efficient execution plans.</li>
+<li><code>How:</code> Regularly <a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/tgsql/gathering-optimizer-statistics.html#GUID-3D546E00-5DC0-4350-80F8-68205008FCEA">gather statistics</a> on tables and indexes.</li>
+</ul>
+<p><strong>Tune Subqueries and Joins:</strong></p>
+<ul>
+<li><code>Why:</code> Poorly optimized subqueries and joins can be performance bottlenecks.</li>
+<li><code>How:</code> Rewrite subqueries as joins (or vice versa) based on which is more efficient. Use EXISTS instead of IN for subqueries when appropriate.</li>
+</ul>
+<p><strong>Avoid Loop-Dependent Queries in PL/SQL:</strong></p>
+<ul>
+<li><code>Why:</code> Queries inside loops can significantly degrade performance.</li>
+<li><code>How:</code> Minimize database calls within loops, and use collections and bulk operations to process data sets.</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Remember, optimization is often about trade-offs, and the best approach can depend on the specific context and data patterns. Regularly monitoring and profiling your application will help identify areas where SQL and PL/SQL optimization can have the most significant impact.</p>
+</div>
+<h3 id="tips-for-efficient-session-and-state-management-in-apex">Tips for efficient session and state management in APEX</h3>
+<p>Efficient session and state management is crucial in Oracle APEX for maintaining good application performance and ensuring a seamless user experience. Here are some tips to manage session state effectively in APEX:</p>
+<p><strong>Minimize Session State Writes:</strong></p>
+<ul>
+<li><code>Why:</code> Excessive writes to session state increase the load on the database.</li>
+<li><code>How:</code> Only save essential items to the session state. Avoid unnecessary updates to session state items.</li>
+</ul>
+<p><strong>Use Application Items Wisely:</strong></p>
+<ul>
+<li><code>Why:</code> Application items are stored in session state but are shared across all pages in an application.</li>
+<li><code>How:</code> Use application items for data that is common across the application and doesn't change frequently.</li>
+</ul>
+<p><strong>Optimize Item Settings:</strong></p>
+<ul>
+<li><code>Why:</code> Proper configuration of page items affects performance.</li>
+<li><code>How:</code>
+  Set the “Source Used” property appropriately to control when item values are loaded from the database.
+  Avoid “Always, replacing any existing value in session state” unless necessary.</li>
+</ul>
+<p><strong>Leverage Browser Caching:</strong></p>
+<ul>
+<li><code>Why:</code> Reducing server requests for static resources enhances performance.</li>
+<li><code>How:</code> Use browser caching for static files like images, CSS, and JavaScript. Set appropriate cache control headers.</li>
+</ul>
+<p><strong>Implement Conditional Processing:</strong></p>
+<ul>
+<li><code>Why:</code> Conditional processing reduces unnecessary computations and data loading.</li>
+<li><code>How:</code> Use conditions on items, regions, buttons, and processes to render or execute them only when necessary.</li>
+</ul>
+<p><strong>Manage Session Timeout:</strong></p>
+<ul>
+<li><code>Why:</code> Proper session management helps in resource allocation and security.</li>
+<li><code>How:</code> Set a reasonable session timeout value based on your application's nature and usage pattern.</li>
+</ul>
+<p><strong>Clear Session State Appropriately:</strong></p>
+<ul>
+<li><code>Why:</code> Timely clearing of session state can release resources and enhance performance.</li>
+<li><code>How:</code> Use built-in APEX procedures to clear session state when it’s no longer needed, such as after a user logs out or completes a transaction.</li>
+</ul>
+<p><strong>Use Server-Side Conditions Effectively:</strong></p>
+<ul>
+<li><code>Why:</code> Server-side conditions can prevent unnecessary execution of code.</li>
+<li><code>How:</code> Apply server-side conditions on PL/SQL processes and regions to ensure they execute only under specific conditions.</li>
+</ul>
+<p><strong>Optimize Computations and Validations:</strong></p>
+<ul>
+<li><code>Why:</code> Efficient computations and validations ensure quicker page processing.</li>
+<li><code>How:</code> Write efficient PL/SQL code for computations and validations, and avoid redundant validations.</li>
+</ul>
+<p><strong>Leverage AJAX for Partial Page Refreshes:</strong></p>
+<ul>
+<li><code>Why:</code> AJAX calls can update parts of a page without a full page reload.</li>
+<li><code>How:</code> Use Dynamic Actions with AJAX Callbacks to update specific page regions or items, reducing the need to refresh the entire page.</li>
+</ul>
+<p><strong>Utilize On-Demand Processes:</strong></p>
+<ul>
+<li><code>Why:</code> On-demand processes load data only when required.</li>
+<li><code>How:</code> Use On-Demand processes for loading data into items or regions when they are accessed or under specific conditions.</li>
+</ul>
+<p><strong>Profile Session State Usage:</strong></p>
+<ul>
+<li>
+<p><code>Why:</code> Understanding how your application uses session state can reveal optimization opportunities.</p>
+</li>
+<li>
+<p><code>How:</code> Regularly review the session state usage and data volume. Tools like APEX Debug and the APEX Advisor can help in this analysis.</p>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">By following these tips, you can efficiently manage session and state in Oracle APEX, which contributes to better performance, especially in applications with a large number of users or complex data interactions.</p>
+</div>
+<!-- - Using APEX features to improve performance (such as using Application Express (APEX) Collections, Dynamic Actions, etc.). -->
+
+<p><img alt="Perfomance Tools" src="assets/images/mapleleaf.png" /></p>
+<h2 id="section-4-application-performance-optimization">Section 4: Application Performance Optimization</h2>
+<h3 id="strategies-for-effective-management-of-server-resources">Strategies for effective management of server resources.</h3>
+<p>Effective management of server resources is crucial for the optimal performance of Oracle APEX applications, as well as for any server-based applications. Here are several strategies that can be particularly effective:</p>
+<p><strong>Load Balancing:</strong></p>
+<ul>
+<li>
+<p>Distribute incoming network traffic across multiple servers to ensure no single server bears too much load. This improves responsiveness and increases availability.
+  Efficient Use of Hardware Resources:</p>
+</li>
+<li>
+<p>Regularly monitor and optimize the use of CPU, memory, and disk resources. Upgrade hardware or scale resources as needed based on the application's requirements and usage patterns.</p>
+</li>
+</ul>
+<p><strong>Database Optimization:</strong></p>
+<ul>
+<li>Optimize the Oracle database which is at the heart of APEX applications. This includes efficient indexing, partitioning large tables, optimizing SQL queries, and regular maintenance like gathering statistics.</li>
+</ul>
+<p><strong>Application Caching:</strong></p>
+<ul>
+<li>Implement caching mechanisms to store frequently accessed data in memory, reducing the number of times data needs to be read from the disk or database.</li>
+</ul>
+<p><strong>Session Management:</strong></p>
+<ul>
+<li>Efficiently manage user sessions to minimize server load. This includes setting appropriate session timeouts and clearing session states that are no longer needed.</li>
+</ul>
+<p><strong>Regular Monitoring and Maintenance:</strong></p>
+<ul>
+<li>Continuously monitor server performance metrics. Use tools like <a href="https://www.oracle.com/enterprise-manager/#:~:text=Enterprise%20Manager%20is%20used%20to,flexible%20high%20availability%20deployment%20options.">Oracle Enterprise Manager (OEM)</a> for comprehensive monitoring and setup alerts for unusual activities.</li>
+</ul>
+<p><strong>Scalability Planning:</strong></p>
+<ul>
+<li>Design the server infrastructure with scalability in mind. Consider using cloud services or clustered environments that can be scaled up or down based on demand.</li>
+</ul>
+<p><strong>Use of Content Delivery Networks (CDNs):</strong></p>
+<ul>
+<li>For applications that serve users globally, use CDNs to cache content in different geographical locations, reducing load times and server load.</li>
+</ul>
+<h3 id="tips-for-effective-use-of-ajax-and-javascript-in-apex">Tips for effective use of AJAX and JavaScript in APEX.</h3>
+<p>Effectively using AJAX (Asynchronous JavaScript and XML) and JavaScript in Oracle APEX can greatly enhance the user experience by enabling dynamic content loading and interactive features without the need for full page refreshes. Here are some tips for using these technologies effectively in APEX:</p>
+<ol>
+<li>
+<p><strong>Use Dynamic Actions for Client-Side Interactivity:</strong> APEX's Dynamic Actions provide a declarative way to define client-side behavior. Use them for actions like showing or hiding page elements, setting field values, or executing custom JavaScript code based on user interactions.</p>
+</li>
+<li>
+<p><strong>Minimize AJAX Calls:</strong> While AJAX is powerful, overuse can lead to performance issues. Only use AJAX calls when necessary, such as for loading or submitting data asynchronously.</p>
+</li>
+<li>
+<p><strong>Optimize JavaScript Code:</strong> Write efficient and clean JavaScript. Avoid inline scripts scattered throughout the application; instead, organize scripts in external files or APEX’s JavaScript sections for better maintainability.</p>
+</li>
+<li>
+<p><strong>Use APEX JavaScript APIs:</strong> Utilize APEX’s built-in JavaScript APIs for common tasks. These APIs are optimized for APEX and can simplify development.</p>
+</li>
+<li>
+<p><strong>Implement Proper Error Handling in AJAX:</strong> Always include error handling in your AJAX calls to manage exceptions and provide informative feedback to the user.</p>
+</li>
+<li>
+<p><strong>Debounce AJAX Calls:</strong> For actions like search-as-you-type, use debouncing to limit the number of AJAX calls made. This improves performance by reducing the server load.</p>
+</li>
+<li>
+<p><strong>Utilize Partial Page Refresh:</strong> Refresh only parts of the page that need updating rather than the whole page. This can be easily achieved with Dynamic Actions and is more efficient.</p>
+</li>
+<li>
+<p><strong>Cache AJAX Responses When Appropriate:</strong> If the data fetched via AJAX doesn't change often, consider caching the response to improve performance.</p>
+</li>
+<li>
+<p><strong>Ensure Cross-Browser Compatibility:</strong> Test your JavaScript and AJAX implementations across different browsers to ensure consistent behavior.</p>
+</li>
+<li>
+<p><strong>Avoid Blocking the UI:</strong> Use asynchronous AJAX calls to prevent blocking the user interface while the request is being processed.</p>
+</li>
+<li>
+<p><strong>Leverage Browser Developer Tools:</strong> Use browser developer tools for debugging and optimizing your JavaScript and AJAX code.</p>
+</li>
+<li>
+<p><strong>Compress JavaScript Files:</strong> Minify and compress JavaScript files to reduce their size, leading to faster page load times.</p>
+</li>
+<li>
+<p><strong>Use Event Delegation for Dynamic Content:</strong> If you're adding content dynamically to the DOM, use event delegation to handle events on these elements, since directly bound events won’t work on newly added elements.</p>
+</li>
+<li>
+<p><strong>Implement Responsive Design Practices:</strong> Ensure your AJAX and JavaScript implementations work well in a responsive design, especially when dealing with different screen sizes and mobile devices.</p>
+</li>
+</ol>
+<h3 id="best-practices-in-application-design-for-optimal-performance">Best practices in application design for optimal performance.</h3>
+<p>Designing applications for optimal performance involves considering various aspects, from the initial architecture to the implementation details. Here are some best practices for application design, particularly relevant to Oracle APEX but generally applicable to most web applications:</p>
+<p><strong>Efficient Database Interaction:</strong> Design your database schema wisely with proper indexing and normalization.
+Use efficient SQL queries and optimize PL/SQL code.
+Minimize the number of database calls and use bind variables to reduce parsing.</p>
+<p><strong>Optimize Page Design:</strong> Limit the number of items and regions on a page to reduce rendering time.
+Use AJAX to load data asynchronously and dynamically.
+Implement pagination in reports to limit the amount of data loaded at once.</p>
+<p><strong>State Management:</strong> Minimize the use of session state where possible.
+Be judicious in the use of application items and global variables.</p>
+<p><strong>Use of Caching:</strong> Implement caching strategies for static resources and frequently accessed data.
+Consider using browser caching and APEX’s built-in caching features.</p>
+<p><strong>Responsive and Efficient UI:</strong> Use APEX’s built-in themes and templates for a responsive design.
+Optimize JavaScript and CSS usage, and minimize their size.</p>
+<p><strong>Minimize Network Traffic:</strong> Compress data transferred between the server and client.
+Use CSS sprites and image optimization to reduce the number of HTTP requests.</p>
+<p><strong>Load Balancing and Scalability:</strong> Design your application to work in a load-balanced environment.
+Ensure your application can scale horizontally to handle increased load.</p>
+<p><strong>Security:</strong> Follow security best practices to protect your data and users.
+Regularly update your APEX environment and Oracle database to the latest versions.</p>
+<p><strong>Performance Testing:</strong> Regularly test your application’s performance under load.
+Use tools like Oracle APEX’s Advisor to identify potential performance issues.</p>
+<p><strong>Code Organization and Maintenance:</strong> Keep your codebase organized and well-documented.
+Regularly refactor and update your code to improve performance and maintainability.</p>
+<p><strong>Monitoring and Logging:</strong> Implement logging and monitoring to keep track of performance metrics.
+Use tools like <a href="https://www.oracle.com/enterprise-manager/#:~:text=Enterprise%20Manager%20is%20used%20to,flexible%20high%20availability%20deployment%20options.">Oracle Enterprise Manager (OEM)</a> for comprehensive monitoring.</p>
+<p><strong>User Experience:</strong> Design with the user in mind, ensuring that the application is intuitive and easy to use.
+Gather feedback from users for continuous improvement.</p>
+<p><strong>Background Processing:</strong> For long-running processes, consider moving them to background jobs.</p>
+<p><strong>Error Handling:</strong> Implement robust error handling to manage and log exceptions without degrading the user experience.</p>
+<div class="admonition info">
+<p class="admonition-title">These practices are not exhaustive but provide a solid foundation for designing and developing high-performing applications in Oracle APEX and other web-based platforms. Each application is unique, so these practices should be adapted to fit specific needs and contexts.</p>
+</div>
+<p><img alt="Perfomance Tools" src="assets/images/mapleleaf.png" /></p>
+<h2 id="section-5-performance-troubleshooting">Section 5: Performance Troubleshooting</h2>
+<h3 id="steps-for-troubleshooting-common-performance-problems">Steps for troubleshooting common performance problems.</h3>
+<p>Troubleshooting performance problems in web applications, including those built with Oracle APEX, typically involves several key steps. These steps help in identifying the root cause of the issue and formulating an effective solution. Here's a structured approach:</p>
+<ol>
+<li>
+<p><strong>Define the Problem:</strong> Clearly identify the symptoms and the conditions under which the performance issue occurs. Is it happening across the application or only on specific pages or functions?</p>
+</li>
+<li>
+<p><strong>Replicate the Issue:</strong> Try to replicate the issue in a controlled environment. This can help in understanding the exact scenario in which the problem occurs.</p>
+</li>
+<li>
+<p><strong>Monitor and Gather Data:</strong> Utilize monitoring tools to gather data. This includes server performance metrics (CPU, memory usage), database performance (slow queries, locks), and network performance.
+   In Oracle APEX, use the built-in monitoring tools and logs to gather information.</p>
+</li>
+<li>
+<p><strong>Analyze the Data:</strong> Look for patterns or anomalies in the collected data. Compare the performance metrics against expected behavior to identify any deviations.</p>
+</li>
+<li>
+<p><strong>Identify Bottlenecks:</strong> Narrow down the potential causes. Is the issue related to the database, application server, network, or client-side processing?
+   For database issues, examine execution plans of slow-running queries.
+   For application issues, review the application code, particularly any recent changes.</p>
+</li>
+<li>
+<p><strong>Check Resource Utilization:</strong> Ensure that the server has adequate resources (CPU, memory, disk space, network bandwidth).
+   Check for any resource-intensive processes that might be consuming an excessive amount of resources.</p>
+</li>
+<li>
+<p><strong>Review Application Configuration:</strong> Verify that the application is configured correctly. This includes checking database connections, application settings, and any third-party integrations.</p>
+</li>
+<li>
+<p><strong>Test in Different Environments:</strong> Test the application in different environments (browsers, networks, devices) to see if the issue is environment-specific.</p>
+</li>
+<li>
+<p><strong>Implement and Test Fixes:</strong> Based on your findings, implement potential fixes. This might involve optimizing SQL queries, refactoring code, adding indexes to the database, etc.
+   Test the changes in a non-production environment before rolling them out.</p>
+</li>
+<li>
+<p><strong>Evaluate the Impact:</strong> After implementing fixes, reassess the application's performance to determine if there's been an improvement.
+    Continue to monitor the application closely to ensure the problem is resolved.</p>
+</li>
+<li>
+<p><strong>Document and Learn:</strong> Document the issue, the investigative process, and the solution. This can be valuable for addressing similar issues in the future.
+    Share the findings and solutions with your team to broaden collective knowledge.</p>
+</li>
+<li>
+<p><strong>Seek External Help:</strong> If you're unable to resolve the issue, consider reaching out to external experts, forums, or Oracle support.</p>
+</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Remember, performance troubleshooting often requires a methodical approach and sometimes a bit of trial and error. It's important to isolate changes and test systematically to understand the impact of your modifications.</p>
+</div>
+<p><img alt="Perfomance Tools" src="assets/images/mapleleaf.png" /></p>
+<h2 id="conclusion">Conclusion:</h2>
+<p>In conclusion, optimizing performance in Oracle APEX involves a multifaceted approach that addresses various aspects of application development and deployment.</p>
+<h3 id="additional-resources-to-learn-more-and-stay-up-to-date">Additional resources to learn more and stay up to date.</h3>
+<ul>
+<li><span class="twemoji youtube"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg></span> <a href="https://www.youtube.com/@Insum">Insum - Oracle Specialist, APEX Experts</a></li>
+<li><span class="twemoji blogger"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M162.4 196c4.8-4.9 6.2-5.1 36.4-5.1 27.2 0 28.1.1 32.1 2.1 5.8 2.9 8.3 7 8.3 13.6 0 5.9-2.4 10-7.6 13.4-2.8 1.8-4.5 1.9-31.1 2.1-16.4.1-29.5-.2-31.5-.8-10.3-2.9-14.1-17.7-6.6-25.3zm61.4 94.5c-53.9 0-55.8.2-60.2 4.1-3.5 3.1-5.7 9.4-5.1 13.9.7 4.7 4.8 10.1 9.2 12 2.2 1 14.1 1.7 56.3 1.2l47.9-.6 9.2-1.5c9-5.1 10.5-17.4 3.1-24.4-5.3-4.7-5-4.7-60.4-4.7zm223.4 130.1c-3.5 28.4-23 50.4-51.1 57.5-7.2 1.8-9.7 1.9-172.9 1.8-157.8 0-165.9-.1-172-1.8-8.4-2.2-15.6-5.5-22.3-10-5.6-3.8-13.9-11.8-17-16.4-3.8-5.6-8.2-15.3-10-22C.1 423 0 420.3 0 256.3 0 93.2 0 89.7 1.8 82.6 8.1 57.9 27.7 39 53 33.4c7.3-1.6 332.1-1.9 340-.3 21.2 4.3 37.9 17.1 47.6 36.4 7.7 15.3 7-1.5 7.3 180.6.2 115.8 0 164.5-.7 170.5zm-85.4-185.2c-1.1-5-4.2-9.6-7.7-11.5-1.1-.6-8-1.3-15.5-1.7-12.4-.6-13.8-.8-17.8-3.1-6.2-3.6-7.9-7.6-8-18.3 0-20.4-8.5-39.4-25.3-56.5-12-12.2-25.3-20.5-40.6-25.1-3.6-1.1-11.8-1.5-39.2-1.8-42.9-.5-52.5.4-67.1 6.2-27 10.7-46.3 33.4-53.4 62.4-1.3 5.4-1.6 14.2-1.9 64.3-.4 62.8 0 72.1 4 84.5 9.7 30.7 37.1 53.4 64.6 58.4 9.2 1.7 122.2 2.1 133.7.5 20.1-2.7 35.9-10.8 50.7-25.9 10.7-10.9 17.4-22.8 21.8-38.5 3.2-10.9 2.9-88.4 1.7-93.9z"/></svg></span> <a href="https://www.insum.ca/resources/blog/">Insum - Oracle Specialist, APEX Experts</a></li>
+<li><span class="twemoji blogger"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M162.4 196c4.8-4.9 6.2-5.1 36.4-5.1 27.2 0 28.1.1 32.1 2.1 5.8 2.9 8.3 7 8.3 13.6 0 5.9-2.4 10-7.6 13.4-2.8 1.8-4.5 1.9-31.1 2.1-16.4.1-29.5-.2-31.5-.8-10.3-2.9-14.1-17.7-6.6-25.3zm61.4 94.5c-53.9 0-55.8.2-60.2 4.1-3.5 3.1-5.7 9.4-5.1 13.9.7 4.7 4.8 10.1 9.2 12 2.2 1 14.1 1.7 56.3 1.2l47.9-.6 9.2-1.5c9-5.1 10.5-17.4 3.1-24.4-5.3-4.7-5-4.7-60.4-4.7zm223.4 130.1c-3.5 28.4-23 50.4-51.1 57.5-7.2 1.8-9.7 1.9-172.9 1.8-157.8 0-165.9-.1-172-1.8-8.4-2.2-15.6-5.5-22.3-10-5.6-3.8-13.9-11.8-17-16.4-3.8-5.6-8.2-15.3-10-22C.1 423 0 420.3 0 256.3 0 93.2 0 89.7 1.8 82.6 8.1 57.9 27.7 39 53 33.4c7.3-1.6 332.1-1.9 340-.3 21.2 4.3 37.9 17.1 47.6 36.4 7.7 15.3 7-1.5 7.3 180.6.2 115.8 0 164.5-.7 170.5zm-85.4-185.2c-1.1-5-4.2-9.6-7.7-11.5-1.1-.6-8-1.3-15.5-1.7-12.4-.6-13.8-.8-17.8-3.1-6.2-3.6-7.9-7.6-8-18.3 0-20.4-8.5-39.4-25.3-56.5-12-12.2-25.3-20.5-40.6-25.1-3.6-1.1-11.8-1.5-39.2-1.8-42.9-.5-52.5.4-67.1 6.2-27 10.7-46.3 33.4-53.4 62.4-1.3 5.4-1.6 14.2-1.9 64.3-.4 62.8 0 72.1 4 84.5 9.7 30.7 37.1 53.4 64.6 58.4 9.2 1.7 122.2 2.1 133.7.5 20.1-2.7 35.9-10.8 50.7-25.9 10.7-10.9 17.4-22.8 21.8-38.5 3.2-10.9 2.9-88.4 1.7-93.9z"/></svg></span> <a href="https://www.laureston.ca/2019/12/05/15-top-tips-to-tune-your-oracle-apex-performance/">15 Top Tips to tune your Oracle APEX Performance</a></li>
+<li><span class="twemoji blogger"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M162.4 196c4.8-4.9 6.2-5.1 36.4-5.1 27.2 0 28.1.1 32.1 2.1 5.8 2.9 8.3 7 8.3 13.6 0 5.9-2.4 10-7.6 13.4-2.8 1.8-4.5 1.9-31.1 2.1-16.4.1-29.5-.2-31.5-.8-10.3-2.9-14.1-17.7-6.6-25.3zm61.4 94.5c-53.9 0-55.8.2-60.2 4.1-3.5 3.1-5.7 9.4-5.1 13.9.7 4.7 4.8 10.1 9.2 12 2.2 1 14.1 1.7 56.3 1.2l47.9-.6 9.2-1.5c9-5.1 10.5-17.4 3.1-24.4-5.3-4.7-5-4.7-60.4-4.7zm223.4 130.1c-3.5 28.4-23 50.4-51.1 57.5-7.2 1.8-9.7 1.9-172.9 1.8-157.8 0-165.9-.1-172-1.8-8.4-2.2-15.6-5.5-22.3-10-5.6-3.8-13.9-11.8-17-16.4-3.8-5.6-8.2-15.3-10-22C.1 423 0 420.3 0 256.3 0 93.2 0 89.7 1.8 82.6 8.1 57.9 27.7 39 53 33.4c7.3-1.6 332.1-1.9 340-.3 21.2 4.3 37.9 17.1 47.6 36.4 7.7 15.3 7-1.5 7.3 180.6.2 115.8 0 164.5-.7 170.5zm-85.4-185.2c-1.1-5-4.2-9.6-7.7-11.5-1.1-.6-8-1.3-15.5-1.7-12.4-.6-13.8-.8-17.8-3.1-6.2-3.6-7.9-7.6-8-18.3 0-20.4-8.5-39.4-25.3-56.5-12-12.2-25.3-20.5-40.6-25.1-3.6-1.1-11.8-1.5-39.2-1.8-42.9-.5-52.5.4-67.1 6.2-27 10.7-46.3 33.4-53.4 62.4-1.3 5.4-1.6 14.2-1.9 64.3-.4 62.8 0 72.1 4 84.5 9.7 30.7 37.1 53.4 64.6 58.4 9.2 1.7 122.2 2.1 133.7.5 20.1-2.7 35.9-10.8 50.7-25.9 10.7-10.9 17.4-22.8 21.8-38.5 3.2-10.9 2.9-88.4 1.7-93.9z"/></svg></span> <a href="https://apexdebug.com/writing-fast-queries">Writting fast queries</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2024 <a href="https://github.com/ginofsuarez"  target="_blank" rel="noopener">Gino Suarez</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/ginofsuarez" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/GinoSuarez14" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/ginosuarez/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "assets/javascripts/workers/search.c011b7c0.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.7389ff0e.min.js"></script>
+      
+    
+  </body>
+</html>
